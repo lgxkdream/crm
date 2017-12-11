@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sysMenu">
+	<insert id="insert" parameterType="pd" keyProperty="string">
+		insert
+		into
+		sys_menu
+		(
+		 ID,LEVEL,SORT,NAME,HTML,TYPE,PARENT_ID 
+		)
+		values
+		(
+		 #{id},#{level},#{sort},#{name},#{html},#{type},#{parent_id} 
+		)
+	</insert>
+	
+	<insert id="saveBatch" parameterType="java.util.List" keyProperty="string">
+		insert into sys_menu  ( ID,LEVEL,SORT,NAME,HTML,TYPE,PARENT_ID )
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.id},#{item.level},#{item.sort},#{item.name},#{item.html},#{item.type},#{item.parent_id} )
+		</foreach>
+	</insert>
+	
+	<delete id="deleteBatch" parameterType="String">
+		delete from sys_menu
+		where 
+			ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="hashmap">
+		update sys_menu
+		<set>
+			<if test=" id != null ">
+				id = #{id},
+			</if>
+			<if test=" level != null ">
+				level = #{level},
+			</if>
+			<if test=" sort != null ">
+				sort = #{sort},
+			</if>
+			<if test=" name != null ">
+				name = #{name},
+			</if>
+			<if test=" html != null ">
+				html = #{html},
+			</if>
+			<if test=" type != null ">
+				type = #{type},
+			</if>
+			<if test=" parent_id != null ">
+				parent_id = #{parent_id},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select  ID,LEVEL,SORT,NAME,HTML,TYPE,PARENT_ID  from sys_menu
+		<!-- 常用于处理多余的and -->
+		<where>
+			<if test=" id != null and id != '' ">
+				and id = #{id}
+			</if>
+			<if test=" level != null and level != '' ">
+				and level = #{level}
+			</if>
+			<if test=" sort != null and sort != '' ">
+				and sort = #{sort}
+			</if>
+			<if test=" name != null and name != '' ">
+				and name = #{name}
+			</if>
+			<if test=" html != null and html != '' ">
+				and html = #{html}
+			</if>
+			<if test=" type != null and type != '' ">
+				and type = #{type}
+			</if>
+			<if test=" parent_id != null and parent_id != '' ">
+				and parent_id = #{parent_id}
+			</if>
+			
+		</where>
+	</select>
+	
+	<select id="selectMenu" parameterType="pd" resultType="pd">
+		select sm.id as ID
+			,sm.sort as SORT
+			,sm.name as NAME
+			,sm.html as HTML
+			,sm.parent_id as PARENT_ID
+			,sm.type  as TYPE
+			,sm.level as LEVEL
+			from sys_menu sm, sys_role sr, sys_role_menu srm, sys_user su
+			where sm.id=srm.menu_id 
+			and sr.id=srm.role_id
+			and su.role_id=sr.id
+			and su.id=#{ID}
+	</select>
+	
+	<select id="selectById" parameterType="hashmap" resultType="pd">
+		select
+		 ID,LEVEL,SORT,NAME,HTML,TYPE,PARENT_ID 
+		from sys_menu
+		where id = #{id}
+	</select>
+	
+</mapper>

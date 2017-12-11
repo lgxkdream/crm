@@ -1,0 +1,143 @@
+package org.jsoft.controller;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.jsoft.base.controller.BaseController;
+import org.jsoft.service.I{1}Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import utils.PageData;
+import utils.UUIDTool;
+
+@Controller
+@RequestMapping("/sys/{2}")
+public class {1}Controller extends BaseController{
+	
+	@Resource
+	private I{1}Service {2}Service;
+	
+	@RequestMapping("/add")
+	public ModelAndView add(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = new PageData(req);
+		pd.put("id", UUIDTool.getUUID());
+		try {
+			{2}Service.save(pd);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+
+		return mv;
+	}
+	
+	@RequestMapping("/toAdd")
+	public ModelAndView toAdd(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("add");
+		return mv;
+	} 
+
+	@RequestMapping("/addBatch")
+	public ModelAndView addBatch(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		List<PageData> list = new ArrayList<PageData>();
+		for (int i = 0; i < 3; i++) {
+			PageData pd = new PageData();
+			pd.put("name", "a");
+			pd.put("password", "a");
+			pd.put("id", UUIDTool.getUUID());
+			pd.put("birth", new Date());
+			list.add(pd);
+		}
+		try {
+			{2}Service.saveBatch(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+	
+	@RequestMapping("/deleteBatch")
+	public ModelAndView deleteBatch(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		String[] ids = {"2","3","4"};
+		try {
+			System.out.println({2}Service.deleteBatch(ids));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+	
+	@RequestMapping("/delete")
+	public ModelAndView delete(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			System.out.println({2}Service.delete("2"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+	
+	@RequestMapping("/update")
+	public ModelAndView update(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = new PageData();
+		pd.put("id", "2");
+		pd.put("name", "a");
+		pd.put("password", "b");
+		try {
+			System.out.println({2}Service.update(pd));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+	
+	@RequestMapping("/list")
+	public ModelAndView list(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = new PageData();
+		pd.put("name", "a");
+		try {
+			System.out.println({2}Service.listAll(pd));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+	@RequestMapping("/listOne")
+	public ModelAndView listOne(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			System.out.println({2}Service.listById("2"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		mv.setViewName("MyJsp");
+		return mv;
+	}
+
+	public I{1}Service get{1}Service() {
+		return {2}Service;
+	}
+
+	public void set{1}Service(I{1}Service {2}Service) {
+		this.{2}Service = {2}Service;
+	}
+}

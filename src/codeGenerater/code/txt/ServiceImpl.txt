@@ -1,0 +1,25 @@
+package org.jsoft.service.impl;
+
+import javax.annotation.Resource;
+
+import org.jsoft.base.service.impl.BaseServiceImpl;
+import org.jsoft.dao.I{1}Dao;
+import org.jsoft.service.I{1}Service;
+import org.springframework.stereotype.Service;
+
+@Service
+public class {1}ServiceImpl extends BaseServiceImpl implements I{1}Service{
+
+	private I{1}Dao {2}Dao;
+
+	public I{1}Dao get{1}Dao() {
+		return {2}Dao;
+	}
+
+	@Resource
+	public void set{1}Dao(I{1}Dao {2}Dao) {
+		this.{2}Dao = {2}Dao;
+		this.dao = {2}Dao;
+	}
+	
+}

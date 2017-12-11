@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	<insert id="insert" parameterType="pd" keyProperty="string">
+		insert
+		into
+		user
+		(
+		 ID,NAME,PASSWORD,BIRTH 
+		)
+		values
+		(
+		 #{id},#{name},#{password},#{birth} 
+		)
+	</insert>
+	
+	<insert id="saveBatch" parameterType="java.util.List" keyProperty="string">
+		insert into user  ( ID,NAME,PASSWORD,BIRTH )
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.id},#{item.name},#{item.password},#{item.birth} )
+		</foreach>
+	</insert>
+	
+	<delete id="deleteBatch" parameterType="String">
+		delete from user
+		where 
+			ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="hashmap">
+		update user
+		<set>
+			<if test=" id != null ">
+				id = #{id},
+			</if>
+			<if test=" name != null ">
+				name = #{name},
+			</if>
+			<if test=" password != null ">
+				password = #{password},
+			</if>
+			<if test=" birth != null ">
+				birth = #{birth},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select  ID,NAME,PASSWORD,BIRTH  from user
+		<!-- 常用于处理多余的and -->
+		<where>
+			<if test=" id != null and id != '' ">
+				and id = #{id}
+			</if>
+			<if test=" name != null and name != '' ">
+				and name = #{name}
+			</if>
+			<if test=" password != null and password != '' ">
+				and password = #{password}
+			</if>
+			<if test=" birth != null and birth != '' ">
+				and birth = #{birth}
+			</if>
+			
+		</where>
+	</select>
+	
+	<select id="selectById" parameterType="hashmap" resultType="pd">
+		select
+		 ID,NAME,PASSWORD,BIRTH 
+		from user
+		where id = #{id}
+	</select>
+	
+</mapper>

@@ -1,0 +1,10 @@
+package org.jsoft.dao.impl;
+
+import org.jsoft.base.dao.impl.BaseDaoImpl;
+import org.jsoft.dao.I{1}Dao;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class {1}DaoImpl extends BaseDaoImpl implements I{1}Dao {
+
+}

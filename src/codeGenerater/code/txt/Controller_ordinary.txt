@@ -1,0 +1,24 @@
+package org.jsoft.controller;
+
+import javax.annotation.Resource;
+
+import org.jsoft.base.controller.BaseController;
+import org.jsoft.service.I{1}Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/sys/{2}")
+public class {1}Controller extends BaseController{
+	
+	@Resource
+	private I{1}Service {2}Service;
+
+	public I{1}Service get{1}Service() {
+		return {2}Service;
+	}
+
+	public void set{1}Service(I{1}Service {2}Service) {
+		this.{2}Service = {2}Service;
+	}
+}

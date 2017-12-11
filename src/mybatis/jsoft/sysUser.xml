@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sysUser">
+	<insert id="insert" parameterType="pd" keyProperty="string">
+		insert
+		into
+		sys_user
+		(
+		 ID,ROLE_ID,LOGIN_NAME,NAME,PASSWORD 
+		)
+		values
+		(
+		 #{id},#{role_id},#{login_name},#{name},#{password} 
+		)
+	</insert>
+	
+	<insert id="saveBatch" parameterType="java.util.List" keyProperty="string">
+		insert into sys_user  ( ID,ROLE_ID,LOGIN_NAME,NAME,PASSWORD )
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.id},#{item.role_id},#{item.login_name},#{item.name},#{item.password} )
+		</foreach>
+	</insert>
+	
+	<delete id="deleteBatch" parameterType="String">
+		delete from sys_user
+		where 
+			ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="hashmap">
+		update sys_user
+		<set>
+			<if test=" id != null ">
+				id = #{id},
+			</if>
+			<if test=" role_id != null ">
+				role_id = #{role_id},
+			</if>
+			<if test=" login_name != null ">
+				login_name = #{login_name},
+			</if>
+			<if test=" name != null ">
+				name = #{name},
+			</if>
+			<if test=" password != null ">
+				password = #{password},
+			</if>
+			
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select  ID,ROLE_ID,LOGIN_NAME,NAME,PASSWORD  from sys_user
+		<!-- 常用于处理多余的and -->
+		<where>
+			<if test=" id != null and id != '' ">
+				and id = #{id}
+			</if>
+			<if test=" role_id != null and role_id != '' ">
+				and role_id = #{role_id}
+			</if>
+			<if test=" login_name != null and login_name != '' ">
+				and login_name = #{login_name}
+			</if>
+			<if test=" name != null and name != '' ">
+				and name = #{name}
+			</if>
+			<if test=" password != null and password != '' ">
+				and password = #{password}
+			</if>
+			
+		</where>
+	</select>
+	
+	<select id="selectById" parameterType="hashmap" resultType="pd">
+		select
+		 ID,ROLE_ID,LOGIN_NAME,NAME,PASSWORD 
+		from sys_user
+		where id = #{id}
+	</select>
+	
+</mapper>

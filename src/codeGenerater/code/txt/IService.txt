@@ -1,0 +1,7 @@
+package org.jsoft.service;
+
+import org.jsoft.base.service.IBaseService;
+
+public interface I{1}Service extends IBaseService {
+
+}
